@@ -1,0 +1,387 @@
+[
+  {
+    "method": "POST",
+    "path": "/api/auth/register",
+    "domain": "auth"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/login",
+    "domain": "auth"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/logout",
+    "domain": "auth"
+  },
+  {
+    "method": "GET",
+    "path": "/api/auth/me",
+    "domain": "auth"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/forgot-password",
+    "domain": "auth"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/reset-password",
+    "domain": "auth"
+  },
+  {
+    "method": "POST",
+    "path": "/api/auth/change-password",
+    "domain": "auth"
+  },
+  {
+    "method": "GET",
+    "path": "/api/users/me",
+    "domain": "user"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/users/me",
+    "domain": "user"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/users/me",
+    "domain": "user"
+  },
+  {
+    "method": "POST",
+    "path": "/api/users/me/photo",
+    "domain": "user"
+  },
+  {
+    "method": "GET",
+    "path": "/api/users",
+    "domain": "user"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/users/:id",
+    "domain": "user"
+  },
+  {
+    "method": "POST",
+    "path": "/api/uploads",
+    "domain": "upload"
+  },
+  {
+    "method": "GET",
+    "path": "/api/locals",
+    "domain": "local"
+  },
+  {
+    "method": "GET",
+    "path": "/api/locals/random",
+    "domain": "local"
+  },
+  {
+    "method": "GET",
+    "path": "/api/locals/:id",
+    "domain": "local"
+  },
+  {
+    "method": "POST",
+    "path": "/api/locals",
+    "domain": "local"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/locals/:id",
+    "domain": "local"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/locals/:id",
+    "domain": "local"
+  },
+  {
+    "method": "GET",
+    "path": "/api/accommodations",
+    "domain": "accommodation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/accommodations/:id",
+    "domain": "accommodation"
+  },
+  {
+    "method": "POST",
+    "path": "/api/accommodations",
+    "domain": "accommodation"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/accommodations/:id",
+    "domain": "accommodation"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/accommodations/:id",
+    "domain": "accommodation"
+  },
+  {
+    "method": "GET",
+    "path": "/api/restaurants",
+    "domain": "restaurant"
+  },
+  {
+    "method": "GET",
+    "path": "/api/restaurants/:id",
+    "domain": "restaurant"
+  },
+  {
+    "method": "POST",
+    "path": "/api/restaurants",
+    "domain": "restaurant"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/restaurants/:id",
+    "domain": "restaurant"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/restaurants/:id",
+    "domain": "restaurant"
+  },
+  {
+    "method": "GET",
+    "path": "/api/activities",
+    "domain": "activity"
+  },
+  {
+    "method": "GET",
+    "path": "/api/activities/:id",
+    "domain": "activity"
+  },
+  {
+    "method": "POST",
+    "path": "/api/activities",
+    "domain": "activity"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/activities/:id",
+    "domain": "activity"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/activities/:id",
+    "domain": "activity"
+  },
+  {
+    "method": "GET",
+    "path": "/api/events",
+    "domain": "event"
+  },
+  {
+    "method": "GET",
+    "path": "/api/events/:id",
+    "domain": "event"
+  },
+  {
+    "method": "POST",
+    "path": "/api/events",
+    "domain": "event"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/events/:id",
+    "domain": "event"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/events/:id",
+    "domain": "event"
+  },
+  {
+    "method": "GET",
+    "path": "/api/itineraries",
+    "domain": "itinerary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/itineraries/mine",
+    "domain": "itinerary"
+  },
+  {
+    "method": "POST",
+    "path": "/api/itineraries",
+    "domain": "itinerary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/itineraries/:id",
+    "domain": "itinerary"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/itineraries/:id",
+    "domain": "itinerary"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/itineraries/:id",
+    "domain": "itinerary"
+  },
+  {
+    "method": "POST",
+    "path": "/api/itineraries/:id/submit",
+    "domain": "itinerary"
+  },
+  {
+    "method": "POST",
+    "path": "/api/itineraries/:id/like",
+    "domain": "itinerary"
+  },
+  {
+    "method": "GET",
+    "path": "/api/reviews",
+    "domain": "review"
+  },
+  {
+    "method": "POST",
+    "path": "/api/reviews",
+    "domain": "review"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/reviews/:id",
+    "domain": "review"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/reviews/:id",
+    "domain": "review"
+  },
+  {
+    "method": "GET",
+    "path": "/api/comments",
+    "domain": "review"
+  },
+  {
+    "method": "POST",
+    "path": "/api/comments",
+    "domain": "review"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/comments/:id",
+    "domain": "review"
+  },
+  {
+    "method": "GET",
+    "path": "/api/favorites",
+    "domain": "favorite"
+  },
+  {
+    "method": "POST",
+    "path": "/api/favorites",
+    "domain": "favorite"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/favorites/:id",
+    "domain": "favorite"
+  },
+  {
+    "method": "GET",
+    "path": "/api/sustainability",
+    "domain": "sustainability"
+  },
+  {
+    "method": "GET",
+    "path": "/api/sustainability/:slug",
+    "domain": "sustainability"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/sustainability",
+    "domain": "sustainability"
+  },
+  {
+    "method": "POST",
+    "path": "/api/sustainability",
+    "domain": "sustainability"
+  },
+  {
+    "method": "PUT",
+    "path": "/api/sustainability/:id",
+    "domain": "sustainability"
+  },
+  {
+    "method": "DELETE",
+    "path": "/api/sustainability/:id",
+    "domain": "sustainability"
+  },
+  {
+    "method": "POST",
+    "path": "/api/suggestions",
+    "domain": "suggestion"
+  },
+  {
+    "method": "GET",
+    "path": "/api/suggestions/mine",
+    "domain": "suggestion"
+  },
+  {
+    "method": "GET",
+    "path": "/api/balneabilidade",
+    "domain": "balneability"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/stats",
+    "domain": "admin"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/users",
+    "domain": "user"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/itineraries/pending",
+    "domain": "admin"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/itineraries",
+    "domain": "admin"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/itineraries/:id/approve",
+    "domain": "admin"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/itineraries/:id/reject",
+    "domain": "admin"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/suggestions",
+    "domain": "suggestion"
+  },
+  {
+    "method": "PATCH",
+    "path": "/api/admin/suggestions/:id/:action",
+    "domain": "suggestion"
+  },
+  {
+    "method": "GET",
+    "path": "/api/admin/balneabilidade",
+    "domain": "admin"
+  },
+  {
+    "method": "POST",
+    "path": "/api/admin/balneabilidade/sync",
+    "domain": "admin"
+  }
+]
