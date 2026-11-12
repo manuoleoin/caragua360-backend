@@ -1,6 +1,11 @@
 [
   {
     "method": "POST",
+    "path": "/api/users",
+    "domain": "user"
+  },
+  {
+    "method": "POST",
     "path": "/api/auth/register",
     "domain": "auth"
   },

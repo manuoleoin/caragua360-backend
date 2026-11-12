@@ -11,7 +11,11 @@
     "test": "npm run build && node --test test/*.test.cjs",
     "db:generate": "prisma generate --schema database/schema.prisma",
     "db:migrate": "prisma migrate deploy --schema database/schema.prisma",
-    "db:seed": "node database/seed.js",
+    "db:seed": "node --import dotenv/config database/seed.js",
+    "db:validate": "prisma validate",
+    "db:status": "prisma migrate status",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:studio": "prisma studio",
     "prebuild": "npm run db:generate"
   },
   "dependencies": {

@@ -55,6 +55,49 @@ test("invalid registration is rejected before reaching the database", async () =
     .expect(422);
   assert.equal(response.body.error.code, "VALIDATION_ERROR");
 });
+test("POST users validates registration and prevents public admin creation", async () => {
+  for (const body of [
+    { email: "invalid", password: "1" },
+    { fullName: "Maria Silva", email: "maria@example.com", password: "Teste1234", confirmPassword: "diferente" },
+    { fullName: "Maria Silva", email: "maria@example.com", password: "Teste1234", confirmPassword: "Teste1234", role: "ADMIN" },
+  ]) {
+    const response = await request(server).post("/api/users").send(body).expect(422);
+    assert.equal(response.body.error.code, "VALIDATION_ERROR");
+  }
+});
+test("POST users creates an account with hashed password and session", async () => {
+  const originals = { findUnique: prisma.user.findUnique, create: prisma.user.create, sessionCreate: prisma.session.create };
+  let saved;
+  let session;
+  try {
+    prisma.user.findUnique = async () => null;
+    prisma.user.create = async ({ data }) => {
+      saved = data;
+      return { ...user, ...data };
+    };
+    prisma.session.create = async ({ data }) => { session = data; return data; };
+    const response = await request(server).post("/api/users").send({
+      fullName: "Maria Silva", email: "Maria@example.com", password: "Teste1234", confirmPassword: "Teste1234",
+    }).expect(201);
+    assert.equal(saved.email, "maria@example.com");
+    assert.equal(saved.role, "TOURIST");
+    assert.ok(await require("bcryptjs").compare("Teste1234", saved.passwordHash));
+    assert.equal(session.userId, user.id);
+    assert.equal(response.body.user.email, "maria@example.com");
+    assert.equal(response.body.user.passwordHash, undefined);
+    assert.ok(response.body.token);
+    assert.ok(response.headers["set-cookie"]);
+    prisma.user.findUnique = async () => ({ ...user, ...saved });
+    const duplicate = await request(server).post("/api/users").send({
+      fullName: "Maria Silva", email: "Maria@example.com", password: "Teste1234", confirmPassword: "Teste1234",
+    }).expect(409);
+    assert.equal(duplicate.body.error.code, "EMAIL_IN_USE");
+  } finally {
+    prisma.user.findUnique = originals.findUnique;
+    prisma.user.create = originals.create;
+    prisma.session.create = originals.sessionCreate;
+  }
+});
 test("anonymous protected routes return 401", async () => {
   for (const path of [
     "/api/users/me",

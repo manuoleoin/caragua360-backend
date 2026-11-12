@@ -1,3 +1,5 @@
+> Configuração ativa: **Prisma + MySQL**. Siga [PRISMA-MYSQL.md](docs/PRISMA-MYSQL.md). As instruções PostgreSQL abaixo são históricas.
+
 # Caragua360 — configuração do backend NestJS
 
 Backend de turismo com NestJS 11, TypeScript e Prisma 6.19/PostgreSQL. Inclui autenticação, destinos, hospedagens, restaurantes, atividades, eventos, roteiros, avaliações, comentários, favoritos, sustentabilidade, sugestões e administração.

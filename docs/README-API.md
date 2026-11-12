@@ -143,6 +143,7 @@ Os códigos da coluna HTTP são os de **sucesso** configurados nos controllers. 
 | GET | `/api/health` | Público | 200 | — |
 | GET | `/api/health/db` | Público | 200 ou 503 | — |
 | POST | `/api/auth/register` | Público | 201 | `registerSchema` |
+| POST | `/api/users` | Público | 201 | `registerSchema` (mesmo cadastro de `/api/auth/register`) |
 | POST | `/api/auth/login` | Público | 200 | `loginSchema` |
 | POST | `/api/auth/logout` | Público | 200 | `—` |
 | GET | `/api/auth/me` | Público | 200 | `—` |

@@ -19,6 +19,7 @@ import { z } from "zod";
 import { ApiRequest } from "../../common/api-request";
 import { Access, SessionGuard, ZodPipe, imageOptions } from "../../common/http";
 import { UserService } from "./user.service";
+import { AuthService } from "../auth/auth.service";
 import {
   changePasswordSchema,
   forgotPasswordSchema,
@@ -47,7 +48,22 @@ import {
 } from "../../validations/itineraryValidation";
 @Controller()
 export class UserController {
-  constructor(private readonly service: UserService) {}
+  constructor(
+    private readonly service: UserService,
+    private readonly authService: AuthService,
+  ) {}
+  @Post("users")
+  @HttpCode(201)
+  @Access(false, [])
+  @UseGuards(SessionGuard)
+  createUserHandler(
+    @Req() req: ApiRequest,
+    @Res({ passthrough: true }) res: Response,
+    @Body(new ZodPipe(registerSchema)) validated: any,
+  ) {
+    req.body = validated;
+    return this.authService.registerHandler(req, res);
+  }
   @Get("users/me")
   @HttpCode(200)
   @Access(true, [])
