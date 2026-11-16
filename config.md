@@ -9,6 +9,7 @@
 - code .
 
 (!) duplicar o ".env.example" e renomear para ".env"
+(!) usuário admin: admin@caragua360.com / senha: caragua360
 
 ## VSCode Terminal #1
 
