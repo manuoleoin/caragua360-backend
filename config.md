@@ -8,6 +8,8 @@
 - git clone https://github.com/manuoleoin/caragua360-frontend.git frontend
 - code .
 
+(!) duplicar o ".env.example" e renomear para ".env"
+
 ## VSCode Terminal #1
 
 - cd backend 
