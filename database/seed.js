@@ -612,7 +612,7 @@ const sustainability = [
 async function main() {
   console.log("Iniciando seed do Caragua360\u2026");
   const adminEmail = process.env.SEED_ADMIN_EMAIL ?? "admin@caragua360.com";
-  const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? "Caragua360#2026";
+  const adminPassword = process.env.SEED_ADMIN_PASSWORD ?? "caragua360";
   const touristEmail = "turista@caragua360.com";
   const residentEmail = "morador@caragua360.com";
   const hash = await bcrypt.hash(adminPassword, 10);
