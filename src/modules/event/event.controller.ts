@@ -55,6 +55,13 @@ export class EventController {
   listEvents(@Req() req: ApiRequest) {
     return this.service.listEvents(req);
   }
+  @Get("events/mine")
+  @HttpCode(200)
+  @Access(true, ["ADMIN", "RESIDENT"])
+  @UseGuards(SessionGuard)
+  myEvents(@Req() req: ApiRequest) {
+    return this.service.myEvents(req);
+  }
   @Get("events/:id")
   @HttpCode(200)
   @Access(true, [])
@@ -62,9 +69,10 @@ export class EventController {
   getEvent(@Req() req: ApiRequest) {
     return this.service.getEvent(req);
   }
+  // Admin publica direto; residente envia para análise (status PENDING).
   @Post("events")
   @HttpCode(201)
-  @Access(true, ["ADMIN"])
+  @Access(true, ["ADMIN", "RESIDENT"])
   @UseGuards(SessionGuard)
   createEvent(
     @Req() req: ApiRequest,

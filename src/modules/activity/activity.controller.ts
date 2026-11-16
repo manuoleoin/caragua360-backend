@@ -62,9 +62,10 @@ export class ActivityController {
   getActivity(@Req() req: ApiRequest) {
     return this.service.getActivity(req);
   }
+  // Admin publica direto; residente envia para análise (status PENDING).
   @Post("activities")
   @HttpCode(201)
-  @Access(true, ["ADMIN"])
+  @Access(true, ["ADMIN", "RESIDENT"])
   @UseGuards(SessionGuard)
   createActivity(
     @Req() req: ApiRequest,

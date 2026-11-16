@@ -30,6 +30,7 @@ export class EventService {
     const events = await this.prisma.event.findMany({
       where: {
         isActive: true,
+        status: "APPROVED" as const,
         ...(query.q
           ? {
               OR: [
@@ -67,7 +68,13 @@ export class EventService {
           : { slug: key },
       include: { photos: { orderBy: { sortOrder: "asc" as const } } },
     });
-    if (!event || (!event.isActive && req.user?.role !== "ADMIN")) {
+    const isAdmin = req.user?.role === "ADMIN";
+    const isOwner = Boolean(req.user) && event?.createdById === req.user!.id;
+    if (
+      !event ||
+      (!event.isActive && !isAdmin) ||
+      (event.status !== "APPROVED" && !isAdmin && !isOwner)
+    ) {
       throw new AppError(404, "NOT_FOUND", "Evento n\xE3o encontrado.");
     }
     return { event };
@@ -79,10 +86,18 @@ export class EventService {
     let n = 1;
     while (await this.prisma.event.findUnique({ where: { slug } }))
       slug = `${base}-${++n}`;
+    const isAdmin = req.user!.role === "ADMIN";
     const event = await this.prisma.event.create({
       data: {
         ...data(req.body),
+        // Residente não controla visibilidade: entra ativo, porém pendente.
+        ...(isAdmin ? {} : { isActive: true }),
         slug,
+        status: isAdmin ? "APPROVED" : "PENDING",
+        createdById: req.user!.id,
+        ...(isAdmin
+          ? { reviewedById: req.user!.id, reviewedAt: new Date() }
+          : {}),
         photos: {
           create: photos.map((url, index) => ({ url, sortOrder: index })),
         },
@@ -90,6 +105,22 @@ export class EventService {
       include: { photos: true },
     });
     return { event };
+  }
+  async myEvents(req: ApiRequest) {
+    const events = await this.prisma.event.findMany({
+      where: { createdById: req.user!.id },
+      orderBy: { createdAt: "desc" as const },
+      select: {
+        id: true,
+        name: true,
+        startDate: true,
+        place: true,
+        status: true,
+        rejectionReason: true,
+        createdAt: true,
+      },
+    });
+    return { events };
   }
   async updateEvent(req: ApiRequest) {
     const id = parseId(req.params.id, "evento");

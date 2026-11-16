@@ -30,6 +30,13 @@ enum ItineraryStatus {
   REJECTED
 }
 
+/// Status de moderação para conteúdos enviados por residentes.
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum SuggestionType {
   NOVO_PONTO
   CORRECAO
@@ -73,17 +80,25 @@ model User {
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
-  itineraries          Itinerary[]          @relation("ItineraryAuthor")
-  reviewedItineraries  Itinerary[]          @relation("ItineraryReviewer")
-  reviews              Review[]
-  comments             Comment[]
-  favorites            Favorite[]
-  likes                ItineraryLike[]
-  suggestions          Suggestion[]         @relation("SuggestionAuthor")
-  reviewedSuggestions  Suggestion[]         @relation("SuggestionReviewer")
-  resetTokens          PasswordResetToken[]
-  createdLocals        Local[]              @relation("LocalCreator")
-  sessions             Session[]
+  itineraries            Itinerary[]          @relation("ItineraryAuthor")
+  reviewedItineraries    Itinerary[]          @relation("ItineraryReviewer")
+  reviews                Review[]
+  comments               Comment[]
+  favorites              Favorite[]
+  likes                  ItineraryLike[]
+  suggestions            Suggestion[]         @relation("SuggestionAuthor")
+  reviewedSuggestions    Suggestion[]         @relation("SuggestionReviewer")
+  resetTokens            PasswordResetToken[]
+  createdLocals          Local[]              @relation("LocalCreator")
+  createdEvents          Event[]              @relation("EventCreator")
+  reviewedEvents         Event[]              @relation("EventReviewer")
+  createdActivitys       Activity[]           @relation("ActivityCreator")
+  reviewedActivitys      Activity[]           @relation("ActivityReviewer")
+  createdRestaurants     Restaurant[]         @relation("RestaurantCreator")
+  reviewedRestaurants    Restaurant[]         @relation("RestaurantReviewer")
+  createdAccommodations  Accommodation[]      @relation("AccommodationCreator")
+  reviewedAccommodations Accommodation[]      @relation("AccommodationReviewer")
+  sessions               Session[]
 
   @@index([role])
   @@index([createdAt])
@@ -152,25 +167,25 @@ model Local {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  createdBy   User?              @relation("LocalCreator", fields: [createdById], references: [id], onDelete: SetNull)
-  photos      LocalPhoto[]
-  reviews     Review[]
-  comments    Comment[]
-  favorites   Favorite[]
-  balneability BalneabilityRecord[]
+  createdBy       User?                @relation("LocalCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  photos          LocalPhoto[]
+  reviews         Review[]
+  comments        Comment[]
+  favorites       Favorite[]
+  balneability    BalneabilityRecord[]
   itineraryPlaces ItineraryPlace[]
-  suggestions Suggestion[]
+  suggestions     Suggestion[]
 
   @@index([category, isActive])
   @@index([neighborhood])
 }
 
 model LocalPhoto {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   localId   Int
-  url       String @db.VarChar(500)
+  url       String  @db.VarChar(500)
   caption   String? @db.VarChar(255)
-  sortOrder Int    @default(0)
+  sortOrder Int     @default(0)
 
   local Local @relation(fields: [localId], references: [id], onDelete: Cascade)
 
@@ -178,34 +193,44 @@ model LocalPhoto {
 }
 
 model Accommodation {
-  id           Int      @id @default(autoincrement())
-  slug         String   @unique @db.VarChar(160)
-  name         String   @db.VarChar(160)
-  category     String   @default("Pousada") @db.VarChar(40)
-  description  String   @db.Text
-  neighborhood String?  @db.VarChar(120)
-  address      String?  @db.VarChar(255)
-  contactPhone String?  @db.VarChar(60)
-  contactEmail String?  @db.VarChar(191)
-  website      String?  @db.VarChar(255)
-  amenities    Json?
-  priceRange   String?  @db.VarChar(80)
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              Int            @id @default(autoincrement())
+  slug            String         @unique @db.VarChar(160)
+  name            String         @db.VarChar(160)
+  category        String         @default("Pousada") @db.VarChar(40)
+  description     String         @db.Text
+  neighborhood    String?        @db.VarChar(120)
+  address         String?        @db.VarChar(255)
+  contactPhone    String?        @db.VarChar(60)
+  contactEmail    String?        @db.VarChar(191)
+  website         String?        @db.VarChar(255)
+  amenities       Json?
+  priceRange      String?        @db.VarChar(80)
+  isActive        Boolean        @default(true)
+  /// Envios de residentes entram como PENDING e só aparecem após aprovação do admin.
+  status          ApprovalStatus @default(APPROVED)
+  createdById     Int?
+  reviewedById    Int?
+  reviewedAt      DateTime?
+  rejectionReason String?        @db.Text
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
-  photos    AccommodationPhoto[]
-  favorites Favorite[]
+  createdBy  User?                @relation("AccommodationCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  reviewedBy User?                @relation("AccommodationReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  photos     AccommodationPhoto[]
+  favorites  Favorite[]
 
   @@index([neighborhood, isActive])
+  @@index([status])
+  @@index([createdById])
 }
 
 model AccommodationPhoto {
-  id              Int    @id @default(autoincrement())
+  id              Int     @id @default(autoincrement())
   accommodationId Int
-  url             String @db.VarChar(500)
+  url             String  @db.VarChar(500)
   caption         String? @db.VarChar(255)
-  sortOrder       Int    @default(0)
+  sortOrder       Int     @default(0)
 
   accommodation Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
 
@@ -213,32 +238,42 @@ model AccommodationPhoto {
 }
 
 model Restaurant {
-  id           Int      @id @default(autoincrement())
-  slug         String   @unique @db.VarChar(160)
-  name         String   @db.VarChar(160)
-  description  String   @db.Text
-  neighborhood String?  @db.VarChar(120)
-  address      String?  @db.VarChar(255)
-  contact      String?  @db.VarChar(160)
-  cuisine      String?  @db.VarChar(120)
-  openingHours Json?
-  priceRange   String?  @db.VarChar(80)
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              Int            @id @default(autoincrement())
+  slug            String         @unique @db.VarChar(160)
+  name            String         @db.VarChar(160)
+  description     String         @db.Text
+  neighborhood    String?        @db.VarChar(120)
+  address         String?        @db.VarChar(255)
+  contact         String?        @db.VarChar(160)
+  cuisine         String?        @db.VarChar(120)
+  openingHours    Json?
+  priceRange      String?        @db.VarChar(80)
+  isActive        Boolean        @default(true)
+  /// Envios de residentes entram como PENDING e só aparecem após aprovação do admin.
+  status          ApprovalStatus @default(APPROVED)
+  createdById     Int?
+  reviewedById    Int?
+  reviewedAt      DateTime?
+  rejectionReason String?        @db.Text
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
-  photos    RestaurantPhoto[]
-  favorites Favorite[]
+  createdBy  User?             @relation("RestaurantCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  reviewedBy User?             @relation("RestaurantReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  photos     RestaurantPhoto[]
+  favorites  Favorite[]
 
   @@index([neighborhood, isActive])
+  @@index([status])
+  @@index([createdById])
 }
 
 model RestaurantPhoto {
-  id           Int    @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   restaurantId Int
-  url          String @db.VarChar(500)
+  url          String  @db.VarChar(500)
   caption      String? @db.VarChar(255)
-  sortOrder    Int    @default(0)
+  sortOrder    Int     @default(0)
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
@@ -246,30 +281,40 @@ model RestaurantPhoto {
 }
 
 model Activity {
-  id           Int      @id @default(autoincrement())
-  slug         String   @unique @db.VarChar(160)
-  name         String   @db.VarChar(160)
-  description  String   @db.Text
-  neighborhood String?  @db.VarChar(120)
-  location     String?  @db.VarChar(255)
-  contact      String?  @db.VarChar(160)
-  schedule     String?  @db.VarChar(255)
-  priceInfo    String?  @db.VarChar(160)
-  isActive     Boolean  @default(true)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id              Int            @id @default(autoincrement())
+  slug            String         @unique @db.VarChar(160)
+  name            String         @db.VarChar(160)
+  description     String         @db.Text
+  neighborhood    String?        @db.VarChar(120)
+  location        String?        @db.VarChar(255)
+  contact         String?        @db.VarChar(160)
+  schedule        String?        @db.VarChar(255)
+  priceInfo       String?        @db.VarChar(160)
+  isActive        Boolean        @default(true)
+  /// Envios de residentes entram como PENDING e só aparecem após aprovação do admin.
+  status          ApprovalStatus @default(APPROVED)
+  createdById     Int?
+  reviewedById    Int?
+  reviewedAt      DateTime?
+  rejectionReason String?        @db.Text
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
-  photos ActivityPhoto[]
+  createdBy  User?           @relation("ActivityCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  reviewedBy User?           @relation("ActivityReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  photos     ActivityPhoto[]
 
   @@index([isActive])
+  @@index([status])
+  @@index([createdById])
 }
 
 model ActivityPhoto {
-  id         Int    @id @default(autoincrement())
+  id         Int     @id @default(autoincrement())
   activityId Int
-  url        String @db.VarChar(500)
+  url        String  @db.VarChar(500)
   caption    String? @db.VarChar(255)
-  sortOrder  Int    @default(0)
+  sortOrder  Int     @default(0)
 
   activity Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
 
@@ -277,32 +322,42 @@ model ActivityPhoto {
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
-  slug        String   @unique @db.VarChar(160)
-  name        String   @db.VarChar(160)
-  description String   @db.Text
-  startDate   DateTime
-  endDate     DateTime?
-  time        String?  @db.VarChar(120)
-  place       String   @db.VarChar(160)
-  address     String?  @db.VarChar(255)
-  entryInfo   String?  @db.Text
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id              Int            @id @default(autoincrement())
+  slug            String         @unique @db.VarChar(160)
+  name            String         @db.VarChar(160)
+  description     String         @db.Text
+  startDate       DateTime
+  endDate         DateTime?
+  time            String?        @db.VarChar(120)
+  place           String         @db.VarChar(160)
+  address         String?        @db.VarChar(255)
+  entryInfo       String?        @db.Text
+  isActive        Boolean        @default(true)
+  /// Eventos de residentes entram como PENDING e só aparecem após aprovação do admin.
+  status          ApprovalStatus @default(APPROVED)
+  createdById     Int?
+  reviewedById    Int?
+  reviewedAt      DateTime?
+  rejectionReason String?        @db.Text
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
 
-  photos EventPhoto[]
+  createdBy  User?        @relation("EventCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  reviewedBy User?        @relation("EventReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  photos     EventPhoto[]
 
   @@index([startDate])
   @@index([isActive])
+  @@index([status])
+  @@index([createdById])
 }
 
 model EventPhoto {
-  id        Int    @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   eventId   Int
-  url       String @db.VarChar(500)
+  url       String  @db.VarChar(500)
   caption   String? @db.VarChar(255)
-  sortOrder Int    @default(0)
+  sortOrder Int     @default(0)
 
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
@@ -311,15 +366,15 @@ model EventPhoto {
 
 /// Leitura persistida da API de balneabilidade. Mantém a origem e a data da medição.
 model BalneabilityRecord {
-  id         Int               @id @default(autoincrement())
-  beachName  String            @db.VarChar(160)
+  id         Int                @id @default(autoincrement())
+  beachName  String             @db.VarChar(160)
   localId    Int?
   status     BalneabilityStatus @default(NAO_AVALIADA)
   measuredAt DateTime
-  source     String            @db.VarChar(160)
-  sourceUrl  String?           @db.VarChar(500)
+  source     String             @db.VarChar(160)
+  sourceUrl  String?            @db.VarChar(500)
   raw        Json?
-  fetchedAt  DateTime          @default(now())
+  fetchedAt  DateTime           @default(now())
 
   local Local? @relation(fields: [localId], references: [id], onDelete: SetNull)
 
@@ -345,8 +400,8 @@ model Itinerary {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
-  user       User              @relation("ItineraryAuthor", fields: [userId], references: [id], onDelete: Cascade)
-  reviewedBy User?             @relation("ItineraryReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  user       User             @relation("ItineraryAuthor", fields: [userId], references: [id], onDelete: Cascade)
+  reviewedBy User?            @relation("ItineraryReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
   days       ItineraryDay[]
   places     ItineraryPlace[]
   photos     ItineraryPhoto[]
@@ -360,10 +415,10 @@ model Itinerary {
 }
 
 model ItineraryDay {
-  id          Int      @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   itineraryId Int
   dayNumber   Int
-  notes       String?  @db.Text
+  notes       String? @db.Text
 
   itinerary Itinerary        @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   places    ItineraryPlace[]
@@ -372,18 +427,18 @@ model ItineraryDay {
 }
 
 model ItineraryPlace {
-  id            Int      @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   itineraryId   Int
   dayId         Int
   localId       Int?
-  placeName     String   @db.VarChar(160)
-  comments      String?  @db.Text
+  placeName     String    @db.VarChar(160)
+  comments      String?   @db.Text
   knewPlace     Boolean?
   visitDate     DateTime?
-  visitTime     String?  @db.VarChar(20)
-  visitDuration String?  @db.VarChar(60)
+  visitTime     String?   @db.VarChar(20)
+  visitDuration String?   @db.VarChar(60)
   rating        Int?
-  sortOrder     Int      @default(0)
+  sortOrder     Int       @default(0)
 
   itinerary Itinerary        @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   day       ItineraryDay     @relation(fields: [dayId], references: [id], onDelete: Cascade)
@@ -395,13 +450,13 @@ model ItineraryPlace {
 }
 
 model ItineraryPhoto {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   itineraryId Int
   placeId     Int?
-  url         String @db.VarChar(500)
+  url         String  @db.VarChar(500)
   caption     String? @db.VarChar(255)
 
-  itinerary Itinerary      @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+  itinerary Itinerary       @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
   place     ItineraryPlace? @relation(fields: [placeId], references: [id], onDelete: SetNull)
 
   @@index([itineraryId])
@@ -479,35 +534,35 @@ model ItineraryLike {
 }
 
 model SustainabilityContent {
-  id        Int                  @id @default(autoincrement())
-  slug      String               @unique @db.VarChar(160)
-  title     String               @db.VarChar(160)
+  id        Int                    @id @default(autoincrement())
+  slug      String                 @unique @db.VarChar(160)
+  title     String                 @db.VarChar(160)
   category  SustainabilityCategory
-  summary   String               @db.VarChar(500)
-  content   String               @db.Text
-  imageUrl  String?              @db.VarChar(500)
-  published Boolean              @default(true)
-  createdAt DateTime             @default(now())
-  updatedAt DateTime             @updatedAt
+  summary   String                 @db.VarChar(500)
+  content   String                 @db.Text
+  imageUrl  String?                @db.VarChar(500)
+  published Boolean                @default(true)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
 
   @@index([category, published])
 }
 
 model Suggestion {
-  id          Int              @id @default(autoincrement())
-  userId      Int
-  type        SuggestionType
-  title       String           @db.VarChar(160)
-  description String           @db.Text
-  localId     Int?
-  status      SuggestionStatus @default(PENDING)
-  adminNote   String?          @db.Text
-  reviewedAt  DateTime?
+  id           Int              @id @default(autoincrement())
+  userId       Int
+  type         SuggestionType
+  title        String           @db.VarChar(160)
+  description  String           @db.Text
+  localId      Int?
+  status       SuggestionStatus @default(PENDING)
+  adminNote    String?          @db.Text
+  reviewedAt   DateTime?
   reviewedById Int?
-  createdAt   DateTime         @default(now())
+  createdAt    DateTime         @default(now())
 
-  user       User  @relation("SuggestionAuthor", fields: [userId], references: [id], onDelete: Cascade)
-  reviewedBy User? @relation("SuggestionReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
+  user       User   @relation("SuggestionAuthor", fields: [userId], references: [id], onDelete: Cascade)
+  reviewedBy User?  @relation("SuggestionReviewer", fields: [reviewedById], references: [id], onDelete: SetNull)
   local      Local? @relation(fields: [localId], references: [id], onDelete: SetNull)
 
   @@index([status])

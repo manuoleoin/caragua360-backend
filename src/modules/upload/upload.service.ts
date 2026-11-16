@@ -12,7 +12,10 @@ export class UploadService {
         "FILE_REQUIRED",
         "Selecione uma imagem para enviar.",
       );
-    const folder = req.body?.folder === "perfil" ? "perfil" : "roteiros";
+    const allowed = ["perfil", "roteiros", "eventos", "explore"];
+    const folder = allowed.includes(req.body?.folder)
+      ? req.body.folder
+      : "roteiros";
     const url = await storeImage(req.file, folder);
     return { url };
   }

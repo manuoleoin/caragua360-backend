@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ApiRequest } from "../../common/api-request";
 import { PrismaService } from "../../config/database";
+import { approvalOnCreate, canViewModerated } from "../../common/approval";
 import { AppError } from "../../middlewares/errorMiddleware";
 import { getQuery } from "../../middlewares/validationMiddleware";
 import { firstPhoto, parseId, slugify } from "../../utils/helpers";
@@ -26,6 +27,7 @@ export class ActivityService {
     const activities = await this.prisma.activity.findMany({
       where: {
         isActive: true,
+        status: "APPROVED" as const,
         ...(query.q
           ? {
               OR: [
@@ -62,7 +64,7 @@ export class ActivityService {
           : { slug: key },
       include: { photos: { orderBy: { sortOrder: "asc" as const } } },
     });
-    if (!item || (!item.isActive && req.user?.role !== "ADMIN")) {
+    if (!item || !canViewModerated(item, req)) {
       throw new AppError(404, "NOT_FOUND", "Atividade n\xE3o encontrada.");
     }
     return { activity: item };
@@ -77,6 +79,7 @@ export class ActivityService {
     const activity = await this.prisma.activity.create({
       data: {
         ...data(req.body),
+        ...approvalOnCreate(req),
         slug,
         photos: {
           create: photos.map((url, index) => ({ url, sortOrder: index })),

@@ -62,9 +62,10 @@ export class RestaurantController {
   getRestaurant(@Req() req: ApiRequest) {
     return this.service.getRestaurant(req);
   }
+  // Admin publica direto; residente envia para análise (status PENDING).
   @Post("restaurants")
   @HttpCode(201)
-  @Access(true, ["ADMIN"])
+  @Access(true, ["ADMIN", "RESIDENT"])
   @UseGuards(SessionGuard)
   createRestaurant(
     @Req() req: ApiRequest,

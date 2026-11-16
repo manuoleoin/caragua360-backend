@@ -62,9 +62,10 @@ export class AccommodationController {
   getAccommodation(@Req() req: ApiRequest) {
     return this.service.getAccommodation(req);
   }
+  // Admin publica direto; residente envia para análise (status PENDING).
   @Post("accommodations")
   @HttpCode(201)
-  @Access(true, ["ADMIN"])
+  @Access(true, ["ADMIN", "RESIDENT"])
   @UseGuards(SessionGuard)
   createAccommodation(
     @Req() req: ApiRequest,

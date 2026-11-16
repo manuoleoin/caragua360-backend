@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ApiRequest } from "../../common/api-request";
 import { PrismaService } from "../../config/database";
+import { approvalOnCreate, canViewModerated } from "../../common/approval";
 import { AppError } from "../../middlewares/errorMiddleware";
 import { getQuery } from "../../middlewares/validationMiddleware";
 import { firstPhoto, parseId, slugify } from "../../utils/helpers";
@@ -27,6 +28,7 @@ export class RestaurantService {
     const restaurants = await this.prisma.restaurant.findMany({
       where: {
         isActive: true,
+        status: "APPROVED" as const,
         ...(query.neighborhood ? { neighborhood: query.neighborhood } : {}),
         ...(query.cuisine ? { cuisine: { contains: query.cuisine } } : {}),
         ...(query.q
@@ -66,7 +68,7 @@ export class RestaurantService {
           : { slug: key },
       include: { photos: { orderBy: { sortOrder: "asc" as const } } },
     });
-    if (!item || (!item.isActive && req.user?.role !== "ADMIN")) {
+    if (!item || !canViewModerated(item, req)) {
       throw new AppError(404, "NOT_FOUND", "Restaurante n\xE3o encontrado.");
     }
     const favorite = await this.prisma.favorite.findFirst({
@@ -84,6 +86,7 @@ export class RestaurantService {
     const restaurant = await this.prisma.restaurant.create({
       data: {
         ...data(req.body),
+        ...approvalOnCreate(req),
         slug,
         photos: {
           create: photos.map((url, index) => ({ url, sortOrder: index })),

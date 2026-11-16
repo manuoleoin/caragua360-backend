@@ -87,6 +87,57 @@ export class AdminController {
     req.body = validated;
     return this.service.rejectItinerary(req);
   }
+  @Get("admin/events/pending")
+  @HttpCode(200)
+  @Access(true, ["ADMIN"])
+  @UseGuards(SessionGuard)
+  pendingEvents(@Req() req: ApiRequest) {
+    return this.service.pendingEvents(req);
+  }
+  @Patch("admin/events/:id/approve")
+  @HttpCode(200)
+  @Access(true, ["ADMIN"])
+  @UseGuards(SessionGuard)
+  approveEvent(@Req() req: ApiRequest) {
+    return this.service.approveEvent(req);
+  }
+  @Patch("admin/events/:id/reject")
+  @HttpCode(200)
+  @Access(true, ["ADMIN"])
+  @UseGuards(SessionGuard)
+  rejectEvent(
+    @Req() req: ApiRequest,
+    @Body(new ZodPipe(rejectSchema)) validated: any,
+  ) {
+    req.body = validated;
+    return this.service.rejectEvent(req);
+  }
+  // Contribuições de residentes: atividades, restaurantes e hospedagens.
+  @Get("admin/contributions/pending")
+  @HttpCode(200)
+  @Access(true, ["ADMIN"])
+  @UseGuards(SessionGuard)
+  pendingContributions(@Req() req: ApiRequest) {
+    return this.service.pendingContributions(req);
+  }
+  @Patch("admin/contributions/:type/:id/approve")
+  @HttpCode(200)
+  @Access(true, ["ADMIN"])
+  @UseGuards(SessionGuard)
+  approveContribution(@Req() req: ApiRequest) {
+    return this.service.reviewContribution(req, "APPROVED");
+  }
+  @Patch("admin/contributions/:type/:id/reject")
+  @HttpCode(200)
+  @Access(true, ["ADMIN"])
+  @UseGuards(SessionGuard)
+  rejectContribution(
+    @Req() req: ApiRequest,
+    @Body(new ZodPipe(rejectSchema)) validated: any,
+  ) {
+    req.body = validated;
+    return this.service.reviewContribution(req, "REJECTED");
+  }
   @Get("admin/balneabilidade")
   @HttpCode(200)
   @Access(true, ["ADMIN"])
