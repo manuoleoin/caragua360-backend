@@ -34,16 +34,17 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "typescript": "^5.9.0",
-    "prisma": "6.19.0",
-    "tsx": "^4.20.0",
-    "prettier": "^3.6.2",
-    "@types/node": "^24.0.0",
+    "@nestjs/cli": "^11.0.0",
+    "@prisma/prisma7": "^7.10.1",
     "@types/express": "^5.0.0",
     "@types/multer": "^2.0.0",
+    "@types/node": "^24.0.0",
     "@types/nodemailer": "^7.0.0",
-    "supertest": "^7.1.0",
     "@types/supertest": "^6.0.0",
-    "@nestjs/cli": "^11.0.0"
+    "prettier": "^3.6.2",
+    "prisma": "6.19.0",
+    "supertest": "^7.1.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0"
   }
 }

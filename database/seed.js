@@ -203,6 +203,45 @@ const points = [
     lat: null,
     lng: null,
     description: "Cachoeira a cerca de 7 km do Centro, com acesso por uma pequena trilha a partir da Estrada do Canta Galo. O local \xE9 procurado para banho de \xE1gua fria e contato com a Mata Atl\xE2ntica. Leve repelente, \xE1gua e recolha todo o lixo produzido."
+  },
+  {
+    slug: "igreja",
+    name: "Santuário Diocesano de Santo Antônio",
+    neighborhood: "Sumar\xE9 (orla do Centro)",
+    photo: "ponto-igreja",
+    access: "Praça Cândido Mota, 35 - Centro, Caraguatatuba - SP, 11660-060",
+    structure: "(continuar o texto)",
+    profile: "Fam\xEDlias com crian\xE7as e adolescentes",
+    capacity: "Alta nos fins de semana",
+    lat: -23.625461,
+    lng: -45.410769,
+    description: "Shopping com mais de 100 lojas, incluindo restaurantes, cinema, áreas cobertas, ao ar livre e pátios floridos. (continuar o texto)"
+  },
+  {
+    slug: "shopping-serramar",
+    name: "Shopping Serramar",
+    neighborhood: "Sumar\xE9 (orla do Centro)",
+    photo: "ponto-shopping-serramar",
+    access: "Praça Cândido Mota, 35 - Centro, Caraguatatuba - SP, 11660-060",
+    structure: "(continuar o texto)",
+    profile: "Fam\xEDlias com crian\xE7as e adolescentes",
+    capacity: "Alta nos fins de semana",
+    lat: -23.625461,
+    lng: -45.410769,
+    description: "Shopping com mais de 100 lojas, incluindo restaurantes, cinema, áreas cobertas, ao ar livre e pátios floridos. (continuar o texto)"
+  },
+   {
+    slug: "shopping centro",
+    name: "Caraguá Praia Shopping",
+    neighborhood: "Sumar\xE9 (orla do Centro)",
+    photo: "ponto-centro-shopping",
+    access: "Av. Dr. Arthur da Costa Filho, 937 - Centro, Caraguatatuba - SP, 11660-005",
+    structure: "(continuar o texto)",
+    profile: "Fam\xEDlias com crian\xE7as e adolescentes",
+    capacity: "Alta nos fins de semana",
+    lat: -23.625461,
+    lng: -45.410769,
+    description: "Shopping moderno de vários andares com diversas lojas, restaurantes, joalherias e muito mais."
   }
 ];
 const activities = [
@@ -319,9 +358,9 @@ const restaurants = [
     description: "Hamburgueria artesanal em Massagua\xE7u, com hamb\xFArgueres montados na hora, batatas e op\xE7\xF5es para viagem. Atende por telefone e WhatsApp; consulte o hor\xE1rio de funcionamento do dia."
   },
   {
-    slug: "zanfredo",
-    name: "Zanfredo",
-    photo: "rest-zanfredo",
+    slug: "marujo",
+    name: "Marujo",
+    photo: "rest-marujo",
     neighborhood: "Centro",
     address: "Av. Prestes Maia, 508, Centro",
     contact: "(12) 3883-5635",
@@ -331,9 +370,9 @@ const restaurants = [
     description: "Restaurante tradicional no Centro, com massas, pratos de frutos do mar e receitas da cozinha \xEDtalo-brasileira. Consulte hor\xE1rios e reservas pelo telefone."
   },
   {
-    slug: "imperial-bar-e-restaurante",
-    name: "Imperial Bar e Restaurante",
-    photo: "rest-imperial",
+    slug: "giardinetto",
+    name: "Giardinetto",
+    photo: "rest-giardinetto",
     neighborhood: "Centro",
     address: null,
     contact: null,
@@ -412,8 +451,8 @@ const accommodations = [
     amenities: ["Wi-Fi", "Estacionamento", "Piscina"]
   },
   {
-    slug: "pousada-assojuris",
-    name: "Pousada Assojuris",
+    slug: "pousada-port-louis",
+    name: "Pousada Port Louis",
     photo: "hosp-6",
     category: "Pousada",
     neighborhood: "Martim de S\xE1",
@@ -423,8 +462,8 @@ const accommodations = [
     amenities: ["Wi-Fi"]
   },
   {
-    slug: "pousada-da-costa",
-    name: "Pousada da Costa",
+    slug: "hotel-villa-del-mare",
+    name: "Pousada Villa Del Mare",
     photo: "hosp-7",
     category: "Pousada",
     neighborhood: "Centro",
@@ -434,8 +473,8 @@ const accommodations = [
     amenities: ["Wi-Fi"]
   },
   {
-    slug: "pousada-jofisa",
-    name: "Pousada Jofisa",
+    slug: "ilha-morena",
+    name: "Ilha Morena",
     photo: "hosp-8",
     category: "Pousada",
     neighborhood: "Centro",
