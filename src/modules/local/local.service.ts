@@ -26,6 +26,7 @@ function card(local: any) {
     photo: firstPhoto(local.photos),
     rating: averageRating(local.reviews),
     reviewsCount: local.reviews.length,
+    balneability: local.balneability?.[0] ?? null,
   };
 }
 
@@ -77,6 +78,11 @@ export class LocalService {
       include: {
         photos: { ...photoSelect, take: 1 },
         reviews: { select: { rating: true } },
+        balneability: {
+          orderBy: { measuredAt: "desc" as const },
+          take: 1,
+          select: { id: true, status: true, measuredAt: true, source: true },
+        },
       },
     });
     return { locals: locals.map(card) };

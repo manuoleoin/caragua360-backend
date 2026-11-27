@@ -631,14 +631,14 @@ const sustainability = [
     image: "cuidar-reciclaveis",
     content: "Troque copos e canudos descart\xE1veis por vers\xF5es reutiliz\xE1veis e prefira embalagens de vidro, papel ou alum\xEDnio. Na cidade, separe papel, pl\xE1stico, vidro e metal para a coleta seletiva e para os pontos de entrega volunt\xE1ria. A Feira Municipal de Arte e Artesanato valoriza produtos locais e artesanais, uma alternativa ao consumo de itens descart\xE1veis."
   },
-  {
-    slug: "preserve-trilhas",
-    title: "Preserve as trilhas e \xE1reas naturais",
-    category: "ORIENTACAO",
-    summary: "Fique na trilha, n\xE3o fa\xE7a fogo e agende a visita \xE0s unidades de conserva\xE7\xE3o.",
-    image: "cuidar-trilhas",
-    content: "No N\xFAcleo Caraguatatuba do Parque Estadual da Serra do Mar, a visita\xE7\xE3o a v\xE1rias trilhas exige agendamento e monitoria. Fique no caminho sinalizado, n\xE3o corte vegeta\xE7\xE3o, n\xE3o fa\xE7a fogueiras e n\xE3o deixe res\xEDduos. Trilhas degradadas perdem solo, aumentam a eros\xE3o e comprometem a fauna local. Leve \xE1gua, repelente e cal\xE7ado adequado."
-  },
+  // {
+  //   slug: "preserve-trilhas",
+  //   title: "Preserve as trilhas e \xE1reas naturais",
+  //   category: "ORIENTACAO",
+  //   summary: "Fique na trilha, n\xE3o fa\xE7a fogo e agende a visita \xE0s unidades de conserva\xE7\xE3o.",
+  //   image: "cuidar-trilhas",
+  //   content: "No N\xFAcleo Caraguatatuba do Parque Estadual da Serra do Mar, a visita\xE7\xE3o a v\xE1rias trilhas exige agendamento e monitoria. Fique no caminho sinalizado, n\xE3o corte vegeta\xE7\xE3o, n\xE3o fa\xE7a fogueiras e n\xE3o deixe res\xEDduos. Trilhas degradadas perdem solo, aumentam a eros\xE3o e comprometem a fauna local. Leve \xE1gua, repelente e cal\xE7ado adequado."
+  // },
   {
     slug: "manguezais-e-restinga",
     title: "Manguezais e restinga: ber\xE7\xE1rios da vida marinha",
@@ -874,17 +874,24 @@ async function main() {
       });
     }
   }
+  // Remove roteiros antigos antes de criar os novos
+  await prisma.itineraryLike.deleteMany({});
+  await prisma.review.deleteMany({ where: { itineraryId: { not: null } } });
+  await prisma.favorite.deleteMany({ where: { itineraryId: { not: null } } });
+  await prisma.itineraryPlace.deleteMany({});
+  await prisma.itineraryDay.deleteMany({});
+  await prisma.itineraryPhoto.deleteMany({});
+  await prisma.itinerary.deleteMany({});
+
   async function upsertItinerary(options) {
-    const existing = await prisma.itinerary.findFirst({ where: { title: options.title } });
-    if (existing) return existing;
     const created = await prisma.itinerary.create({
       data: {
         userId: options.userId,
         title: options.title,
         description: options.description,
         daysCount: options.days.length,
-        startDate: /* @__PURE__ */ new Date("2026-12-12T12:00:00Z"),
-        endDate: /* @__PURE__ */ new Date("2026-12-13T12:00:00Z"),
+        startDate: /* @__PURE__ */ new Date(options.startDate),
+        endDate: /* @__PURE__ */ new Date(options.endDate),
         coverPhotoUrl: IMG(options.cover),
         status: options.status,
         submittedAt: options.status === "DRAFT" ? null : /* @__PURE__ */ new Date(),
@@ -895,22 +902,22 @@ async function main() {
     });
     for (const [index, day] of options.days.entries()) {
       const createdDay = await prisma.itineraryDay.create({
-        data: { itineraryId: created.id, dayNumber: index + 1 }
+        data: { itineraryId: created.id, dayNumber: index + 1, notes: day.notes ?? null }
       });
       for (const [placeIndex, place] of day.places.entries()) {
         const localId = localIds.get(place.slug) ?? null;
-        const localName = [...beaches, ...points].find((item) => item.slug === place.slug)?.name ?? place.slug;
+        const localName = [...beaches, ...points].find((item) => item.slug === place.slug)?.name ?? place.placeName;
         await prisma.itineraryPlace.create({
           data: {
             itineraryId: created.id,
             dayId: createdDay.id,
             localId,
-            placeName: localName,
+            placeName: place.placeName,
             comments: place.comments,
-            knewPlace: false,
-            visitDate: /* @__PURE__ */ new Date(`2026-12-${12 + index}T12:00:00Z`),
-            visitTime: placeIndex === 0 ? "09:00" : "14:00",
-            visitDuration: "3 horas",
+            knewPlace: place.knewPlace ?? false,
+            visitDate: /* @__PURE__ */ new Date(place.visitDate),
+            visitTime: place.visitTime,
+            visitDuration: place.visitDuration,
             rating: place.rating,
             sortOrder: placeIndex,
             photos: {
@@ -922,61 +929,223 @@ async function main() {
     }
     return created;
   }
+
+  const dateBase = "2026-12-";
   const itineraryA = await upsertItinerary({
-    title: "Dois dias na orla central",
+    title: "Orla Central: Praias e Cultura",
     userId: tourist.id,
-    description: "Roteiro de fim de semana para conhecer a orla central de Caraguatatuba, alternando praia, cultura e mirantes. Ideal para quem chega de S\xE3o Paulo e quer caminhar bastante.",
+    description: "Dois dias explorando o melhor da orla central de Caraguatatuba: praias movimentadas, enseadas abrigadas, museus e mirantes com vista para a baía. Ideal para quem chega de São Paulo e quer conhecer a cidade a pé ou de carro.",
     status: "APPROVED",
     cover: "praia-martim-de-sa",
+    startDate: `${dateBase}12T09:00:00Z`,
+    endDate: `${dateBase}13T19:00:00Z`,
     days: [
       {
+        notes: "Comece cedo para aproveitar o dia com calma na orla.",
         places: [
-          { slug: "martin-de-sa", comments: "Praia movimentada, \xF3tima para caminhar no cal\xE7ad\xE3o e almo\xE7ar nos quiosques.", rating: 5, photos: ["praia-martim-de-sa"] },
-          { slug: "prainha", comments: "Enseada abrigada, boa para ir com crian\xE7as. Vale checar a balneabilidade.", rating: 4 },
-          { slug: "macc", comments: "Exposi\xE7\xF5es gratuitas e um bom lugar para entender a cultura cai\xE7ara.", rating: 5, photos: ["macc-exposicao"] }
+          {
+            slug: "martin-de-sa",
+            placeName: "Praia de Martim de Sá",
+            comments: "Praia movimentada com ótima estrutura de quiosques e calçadão. Perfeito para caminhar pela manhã e almoçar nos quiosques da orla.",
+            knewPlace: false,
+            visitDate: `${dateBase}12T00:00:00Z`,
+            visitTime: "09:00",
+            visitDuration: "3 horas",
+            rating: 5,
+            photos: ["praia-martim-de-sa"]
+          },
+          {
+            slug: "prainha",
+            placeName: "Prainha",
+            comments: "Enseada abrigada por costões rochosos, ótima para ir com crianças. Vale conferir o boletim de balneabilidade antes de entrar na água.",
+            knewPlace: false,
+            visitDate: `${dateBase}12T00:00:00Z`,
+            visitTime: "14:00",
+            visitDuration: "2 horas",
+            rating: 4,
+            photos: []
+          },
+          {
+            slug: "macc",
+            placeName: "MACC — Museu de Arte e Cultura de Caraguatatuba",
+            comments: "Exposições gratuitas sobre a cultura caiçara e história local. Localizado no Polo Cultural Profª Adaly Coelho Passos.",
+            knewPlace: false,
+            visitDate: `${dateBase}12T00:00:00Z`,
+            visitTime: "16:30",
+            visitDuration: "1 hora 30 min",
+            rating: 5,
+            photos: ["macc-exposicao"]
+          }
         ]
       },
       {
+        notes: "Subida ao mirante no fim da tarde para ver o pôr do sol sobre a baía.",
         places: [
-          { slug: "morro-santo-antonio", comments: "Subimos de carro no fim da tarde. A vista da ba\xEDa \xE9 imperd\xEDvel.", rating: 5, photos: ["ponto-morro-santo-antonio"] },
-          { slug: "camaroeiro", comments: "Parada r\xE1pida para fotos do complexo e da orla.", rating: 4 },
-          { slug: "parque-trombini", comments: "Programa \xE0 noite com a fam\xEDlia; ir cedo para evitar filas.", rating: 4 }
+          {
+            slug: "morro-santo-antonio",
+            placeName: "Morro Santo Antônio",
+            comments: "Mirante a 325 m de altitude com vista panorâmica da cidade, orla e Serra do Mar. Rampa de voo livre e estátua do padroeiro.",
+            knewPlace: false,
+            visitDate: `${dateBase}13T00:00:00Z`,
+            visitTime: "09:00",
+            visitDuration: "2 horas",
+            rating: 5,
+            photos: ["ponto-morro-santo-antonio"]
+          },
+          {
+            slug: "camaroeiro",
+            placeName: "Camaroeiro",
+            comments: "Complexo de mirantes com praça e arquibancada. Ótimo para fotos rápidas da orla e do Centro.",
+            knewPlace: false,
+            visitDate: `${dateBase}13T00:00:00Z`,
+            visitTime: "14:00",
+            visitDuration: "1 hora 30 min",
+            rating: 4,
+            photos: []
+          },
+          {
+            slug: "parque-trombini",
+            placeName: "Parque Trombini",
+            comments: "Parque de diversões tradicional com mais de 50 brinquedos. Programa noturno ideal para encerrar o roteiro em família.",
+            knewPlace: false,
+            visitDate: `${dateBase}13T00:00:00Z`,
+            visitTime: "17:00",
+            visitDuration: "2 horas",
+            rating: 4,
+            photos: []
+          }
         ]
       }
     ]
   });
+
   await upsertItinerary({
-    title: "Ilhas e matas de Caraguatatuba",
+    title: "Natureza e Aventura: Trilhas e Cachoeiras",
     userId: resident.id,
-    description: "Roteiro de dois dias para quem quer fugir da orla central: praias do norte, passeio de barco at\xE9 a Ilha do Tamandu\xE1 e um dia inteiro de trilhas na Mata Atl\xE2ntica.",
+    description: "Dois dias longe da orla para quem busca contato com a Mata Atlântica: trilhas monitoradas no PESM, cachoeiras e praias do norte com mar calmo.",
     status: "APPROVED",
     cover: "destino-tamandua",
+    startDate: `${dateBase}12T08:00:00Z`,
+    endDate: `${dateBase}13T18:00:00Z`,
     days: [
       {
+        notes: "O acesso ao PESM exige agendamento prévio. Leve água, repelente e calçado adequado.",
         places: [
-          { slug: "mococa", comments: "Mar calmo e areia escura. Sa\xEDmos daqui para o passeio de barco.", rating: 5, photos: ["praia-mococa"] },
-          { slug: "tabatinga", comments: "Estrutura de resorts e vila de pescadores. Boa para terminar o dia.", rating: 4 }
+          {
+            slug: "pesm-nucleo-caraguatatuba",
+            placeName: "PESM — Núcleo Caraguatatuba",
+            comments: "Trilha do Poção com monitor do parque. Unidade de conservação com 35.947 hectares de Mata Atlântica. Agendamento prévio obrigatório.",
+            knewPlace: false,
+            visitDate: `${dateBase}12T00:00:00Z`,
+            visitTime: "08:00",
+            visitDuration: "4 horas",
+            rating: 5,
+            photos: ["ativ-trilhas"]
+          },
+          {
+            slug: "cachoeira-do-mancha",
+            placeName: "Cachoeira do Mancha",
+            comments: "Cachoeira de água fria cercada pela Mata Atlântica. Trilha curta a partir da Estrada do Canta Galo. Leve repelente.",
+            knewPlace: false,
+            visitDate: `${dateBase}12T00:00:00Z`,
+            visitTime: "14:00",
+            visitDuration: "2 horas",
+            rating: 4,
+            photos: []
+          }
         ]
       },
       {
+        notes: "Praias do norte com mar calmo e estrutura simples.",
         places: [
-          { slug: "pesm-nucleo-caraguatatuba", comments: "Trilha do Po\xE7\xE3o com monitor. Agendamos com anteced\xEAncia.", rating: 5, photos: ["ativ-trilhas"] },
-          { slug: "cachoeira-do-mancha", comments: "Banho gelado e trilha curta. Levar repelente.", rating: 4 }
+          {
+            slug: "mococa",
+            placeName: "Praia de Mococa",
+            comments: "Uma das praias mais limpas e preservadas do município, com mar calmo e areia escura. Boa para banho e stand up paddle.",
+            knewPlace: false,
+            visitDate: `${dateBase}13T00:00:00Z`,
+            visitTime: "09:00",
+            visitDuration: "3 horas",
+            rating: 5,
+            photos: ["praia-mococa"]
+          },
+          {
+            slug: "tabatinga",
+            placeName: "Praia de Tabatinga",
+            comments: "Última praia do município antes de Ubatuba. Concentra resorts, marinas e vila de pescadores. Boa para encerrar o dia.",
+            knewPlace: false,
+            visitDate: `${dateBase}13T00:00:00Z`,
+            visitTime: "14:00",
+            visitDuration: "2 horas",
+            rating: 4,
+            photos: []
+          }
         ]
       }
     ]
   });
+
   await upsertItinerary({
-    title: "Fim de semana gastron\xF4mico",
+    title: "Gastronomia e Relax: Sabores do Litoral",
     userId: tourist.id,
-    description: "Roteiro para provar os restaurantes do Centro e de Massagua\xE7u, com paradas na praia entre as refei\xE7\xF5es.",
-    status: "PENDING",
+    description: "Roteiro focado na gastronomia local e praias tranquilas, passando pelo Centro, Massaguaçú e Tabatinga, com paradas em restaurantes tradicionais.",
+    status: "APPROVED",
     cover: "rest-mar-e-terra",
+    startDate: `${dateBase}12T10:00:00Z`,
+    endDate: `${dateBase}13T17:00:00Z`,
     days: [
       {
+        notes: "Confirme horários de funcionamento dos restaurantes antes de sair.",
         places: [
-          { slug: "martin-de-sa", comments: "Manh\xE3 na praia antes do almo\xE7o.", rating: 4 },
-          { slug: "mococa", comments: "Tarde tranquila na praia do norte.", rating: 5 }
+          {
+            slug: "cocanha",
+            placeName: "Praia de Cocanha",
+            comments: "Praia de pescadores artesanais com quiosques especializados em frutos do mar. Ótima para almoço à beira-mar.",
+            knewPlace: false,
+            visitDate: `${dateBase}12T00:00:00Z`,
+            visitTime: "10:00",
+            visitDuration: "2 horas",
+            rating: 5,
+            photos: []
+          },
+          {
+            slug: "massaguacu",
+            placeName: "Praia de Massaguaçú",
+            comments: "Praia aberta e extensa, pouco frequentada por banhistas, mais procurada para pesca esportiva e surfe.",
+            knewPlace: false,
+            visitDate: `${dateBase}12T00:00:00Z`,
+            visitTime: "14:00",
+            visitDuration: "2 horas",
+            rating: 4,
+            photos: []
+          }
+        ]
+      },
+      {
+        notes: "Dia mais tranquilo, focado em restaurantes e praia do norte.",
+        places: [
+          {
+            slug: "tabatinga",
+            placeName: "Praia de Tabatinga",
+            comments: "Vila de pescadores e resorts. Boa para caminhada pela areia e visita à vila local.",
+            knewPlace: false,
+            visitDate: `${dateBase}13T00:00:00Z`,
+            visitTime: "09:00",
+            visitDuration: "2 horas",
+            rating: 4,
+            photos: []
+          },
+          {
+            slug: "martin-de-sa",
+            placeName: "Praia de Martim de Sá",
+            comments: "A praia mais movimentada, com calçadão e grande concentração de quiosques e bares. Ideal para encerrar com petisco e música ao vivo.",
+            knewPlace: false,
+            visitDate: `${dateBase}13T00:00:00Z`,
+            visitTime: "14:00",
+            visitDuration: "2 horas",
+            rating: 5,
+            photos: ["praia-martim-de-sa"]
+          }
         ]
       }
     ]
