@@ -27,7 +27,7 @@ const beaches = [
   {
     slug: "praia-brava",
     name: "Praia Brava",
-    neighborhood: "Casa Branca (acesso pela Martim de S\xE1)",
+    neighborhood: "Casa Branca",
     photo: "praia-brava",
     sea: "Ondas fortes; praia de tombo com fortes correntes em toda a extens\xE3o",
     structure: "Sem quiosques, resid\xEAncias ou banheiros; n\xE3o h\xE1 posto de salva-vidas confirmado.",
@@ -121,13 +121,28 @@ const beaches = [
     lat: -23.57483,
     lng: -45.28361,
     description: "\xDAltima praia do munic\xEDpio antes da divisa com Ubatuba, a cerca de 18\u201321 km do Centro. A areia \xE9 fina e clara, o mar \xE9 calmo e a orla concentra resorts e hot\xE9is, al\xE9m de uma vila de pescadores com ranchos de canoas. Do lado norte do Rio Tabatinga h\xE1 intenso tr\xE1fego de lanchas, jet-skis e caiaques, e \xE9 dali que saem muitos passeios para a Ilha do Tamandu\xE1. O lado sul \xE9 ocupado por condom\xEDnio fechado, acess\xEDvel pela faixa de areia."
+  },
+  {
+    slug: "capricornio",
+    name: "Praia do Capricórnio",
+    neighborhood: "Capricórnio",
+    photo: "praia-capricornio",
+    sea: "Agitado",
+    structure: "Pouca estrutura diretamente na praia, sem quiosques, bares ou restaurantes fixos. O bairro conta com hotéis, pousadas, restaurantes, mercados e outros estabelecimentos comerciais. Na região da Lagoa Azul, há uma área natural sem estrutura comercial.",
+    access: "Pela Rodovia Rio-Santos (SP-55), a aproximadamente 7 km do Centro de Caraguatatuba, sentido Ubatuba. O acesso também pode ser feito por ônibus urbano e por vias locais, algumas não pavimentadas.",
+    profile: "Praticantes de pesca de arremesso, surfistas, visitantes que buscam tranquilidade e contato com a natureza; famílias que frequentam a Lagoa Azul.",
+    capacity: "Moderada, com maior movimento na região da Lagoa Azul durante a temporada e feriados.",
+    lat: -23.621886,
+    lng: -45.357189,
+    description: "Localizada a aproximadamente 7 km do Centro de Caraguatatuba, a Praia do Capricórnio possui cerca de 4 km de extensão, areia grossa e mar aberto com ondas fortes. É uma praia de tombo, bastante procurada por praticantes de pesca com linha e surfistas. Seu principal destaque é a Lagoa Azul, localizada na parte sul da praia, na foz do Rio Jetuba. Formada por água doce e separada do mar por bancos de areia branca, oferece um cenário natural de águas mais tranquilas, cercado por vegetação nativa."
   }
+
 ];
 const points = [
   {
     slug: "morro-santo-antonio",
     name: "Morro Santo Ant\xF4nio",
-    neighborhood: "Sumar\xE9 (acesso pela Estrada do Morro Santo Ant\xF4nio)",
+    neighborhood: "Sumar\xE9",
     photo: "ponto-morro-santo-antonio",
     access: "Entrada pela Estrada do Morro Santo Ant\xF4nio, no bairro Sumar\xE9; subida de carro ou a p\xE9 (cerca de 2 km, \xEDngreme). Acesso gratuito; estacionamento pequeno e sem com\xE9rcio no topo.",
     structure: "Est\xE1tua de Santo Ant\xF4nio, rampa de decolagem de voo livre e mirante. Aberto diariamente, das 8h \xE0s 20h (confirmar antes da visita).",
@@ -136,6 +151,19 @@ const points = [
     lat: -23.60972,
     lng: -45.40118,
     description: "Mirante a cerca de 325 metros de altitude, logo atr\xE1s do Centro, com est\xE1tua de Santo Ant\xF4nio, padroeiro da cidade. Do alto se v\xEA a ba\xEDa, a orla, a Serra do Mar e, em dias claros, o canal de S\xE3o Sebasti\xE3o e Ilhabela. O local tem rampa de decolagem de voo livre e parapente e recebe missa campal em junho."
+  },
+  {
+    slug: "pedra-jacare",
+    name: "Pedra do Jacaré",
+    neighborhood: "Prainha",
+    photo: "pedra-jacare",
+    access: "Trilha curta pelo lado esquerdo da Prainha.",
+    structure: "Todos os trechos da trilha são asfaltados, a maioria possui corrimão e há trechos de escada.",
+    profile: "Atrai famílias com crianças e moradores em busca de tranquilidade, além de jovens e turistas interessados em fotos, caminhadas leves e contemplação.",
+    capacity: "Poucas pessoas",
+    lat: -23.633701,
+    lng: -45.390024045,
+    description: "A Pedra do Jacaré é uma formação natural com vista para a ampla baía de Caraguatatuba, destacando-se pelo belo pôr do sol e pelo contato com a natureza."
   },
   {
     slug: "camaroeiro",
@@ -153,7 +181,7 @@ const points = [
   {
     slug: "parque-trombini",
     name: "Parque Trombini",
-    neighborhood: "Sumar\xE9 (orla do Centro)",
+    neighborhood: "Centro",
     photo: "ponto-parque-trombini",
     access: "Av. Dr. Arthur da Costa Filho, 1500, Sumar\xE9/Centro; acesso a p\xE9 a partir da orla do Centro e do Caragu\xE1 Praia Shopping.",
     structure: "Parque de divers\xF5es privado em funcionamento desde 1957, com mais de 50 brinquedos em 6.500 m\xB2. Sexta a domingo e feriados a partir das 17h30; diariamente em janeiro (confirmar no Instagram @parktrombini).",
@@ -207,42 +235,40 @@ const points = [
   {
     slug: "igreja",
     name: "Santuário Diocesano de Santo Antônio",
-    neighborhood: "Sumar\xE9 (orla do Centro)",
+    neighborhood: "Centro",
     photo: "ponto-igreja",
     access: "Praça Cândido Mota, 35 - Centro, Caraguatatuba - SP, 11660-060",
-    structure: "(continuar o texto)",
     profile: "Fam\xEDlias com crian\xE7as e adolescentes",
     capacity: "Alta nos fins de semana",
-    lat: -23.625461,
-    lng: -45.410769,
-    description: "Shopping com mais de 100 lojas, incluindo restaurantes, cinema, áreas cobertas, ao ar livre e pátios floridos. (continuar o texto)"
+    lat: -23.622010,
+    lng: -45.4121820,
+    description: "Com mais de 156 anos de construção, o Santuário é dedicado ao padroeiro do município, Santo Antônio, e é um dos principais patrimonios historicos religiosos e culturais de Caraguatatuba"
   },
   {
     slug: "shopping-serramar",
     name: "Shopping Serramar",
-    neighborhood: "Sumar\xE9 (orla do Centro)",
+    neighborhood: "Jardim Britânia (Porto Novo)",
     photo: "ponto-shopping-serramar",
-    access: "Praça Cândido Mota, 35 - Centro, Caraguatatuba - SP, 11660-060",
-    structure: "(continuar o texto)",
+    access: "Av. José Herculano, 1.086 - Jardim Britania, Caraguatatuba - SP, 11672-901",
     profile: "Fam\xEDlias com crian\xE7as e adolescentes",
     capacity: "Alta nos fins de semana",
     lat: -23.625461,
     lng: -45.410769,
-    description: "Shopping com mais de 100 lojas, incluindo restaurantes, cinema, áreas cobertas, ao ar livre e pátios floridos. (continuar o texto)"
+    description: "Shopping com mais de 100 lojas, incluindo restaurantes, cinema, áreas cobertas, ao ar livre e pátios floridos."
   },
-   {
+  {
     slug: "shopping centro",
     name: "Caraguá Praia Shopping",
-    neighborhood: "Sumar\xE9 (orla do Centro)",
+    neighborhood: "Centro",
     photo: "ponto-centro-shopping",
     access: "Av. Dr. Arthur da Costa Filho, 937 - Centro, Caraguatatuba - SP, 11660-005",
-    structure: "(continuar o texto)",
     profile: "Fam\xEDlias com crian\xE7as e adolescentes",
     capacity: "Alta nos fins de semana",
     lat: -23.625461,
     lng: -45.410769,
     description: "Shopping moderno de vários andares com diversas lojas, restaurantes, joalherias e muito mais."
   }
+
 ];
 const activities = [
   {
@@ -254,6 +280,36 @@ const activities = [
     schedule: "Aulas e loca\xE7\xE3o conforme condi\xE7\xF5es de mar; confirmar hor\xE1rios com o operador",
     priceInfo: null,
     description: "Aulas, aluguel de pranchas e passeios em \xE1guas calmas, especialmente na Praia de Tabatinga, na Mococa e na Pedra da Freira. A EcoPaddle Tabatinga mant\xE9m aulas e loca\xE7\xE3o de stand up, caiaque e canoa havaiana na divisa Caraguatatuba/Ubatuba."
+  },
+  {
+    slug: "aula-surf",
+    name: "Aulas de Surf",
+    photo: "ativ-surf",
+    location: "Av. Geraldo Nogueira da Silva, 30 - Indaiá, Caraguatatuba - SP, 11665-000",
+    contact: "(12) 99644-8765",
+    schedule: "Horários mediante agendamento pelo WhatsApp.",
+    priceInfo: "Valores variam conforme a modalidade: aula avulsa, mensalidade ou aluguel de pranchas.",
+    description: "A Caragua Surf School é especializada na iniciação ao surf e atende adultos e crianças, oferecendo aulas para quem deseja aprender e desenvolver suas habilidades no esporte."
+  },
+  {
+    slug: "aluguel-kart",
+    name: "Kart",
+    photo: "ativ-kart",
+    location: "Av. Mal. Deodoro da Fonseca - Tingá, Caraguatatuba - SP, 11674-410",
+    contact: "(11) 98315-8268 (WhatsApp) / Instagram @kartcaraguaoficial",
+    schedule: "Das 9h às 17h, sujeito a campeonatos e reservas. Recomenda-se agendar antecipadamente.",
+    priceInfo: "Consultar valores diretamente pelo WhatsApp.",
+    description: "Experiência de kart em Caraguatatuba, ideal para quem gosta de velocidade, adrenalina e diversão. É recomendado entrar em contato antecipadamente para consultar disponibilidade e agendar a atividade."
+  },
+  {
+    slug: "banana-boat",
+    name: "Banana Boat",
+    photo: "ativ-banana",
+    location: "Av. Dr. Aldino Schiavi, 981 - Martim de Sá, Caraguatatuba - SP, 11662-000",
+    contact: "(12) 99672-6309 (WhatsApp) / Instagram @skibaleiao",
+    schedule: "Das 8h às 17h, com possibilidade de agendar passeios pelo WhatsApp.",
+    priceInfo: "Aproximadamente R$ 30,00 por pessoa.",
+    description: "Passeio aquático de 15 a 30 minutos, com parada opcional para mergulho próximo à Praia Brava. A atividade não envolve quedas propositais na água, proporcionando mais estabilidade do que o banana boat tradicional."
   },
   {
     slug: "passeio-de-barco",
@@ -294,7 +350,18 @@ const activities = [
     schedule: "PESM: ter\xE7a a domingo, das 8h \xE0s 17h, com agendamento",
     priceInfo: "PESM: ingresso de R$ 19 para brasileiros",
     description: "Trilhas monitoradas na Mata Atl\xE2ntica, como Jequitib\xE1 (at\xE9 1 km, f\xE1cil), Po\xE7\xE3o (3\u20134 km, moderada, Cachoeira da Pedra Redonda) e Esmeralda (4\u20135 km, dif\xEDcil, cachoeira de cerca de 10 m). A Trilha do Morro Santo Ant\xF4nio sobe cerca de 2 km at\xE9 o mirante a 325 m. A visita\xE7\xE3o ao PESM exige agendamento pr\xE9vio e monitoria em v\xE1rias trilhas."
-  }
+  },
+  {
+    slug: "canoa-havaiana",
+    name: "Canoa Havaiana",
+    photo: "ativ-canoa",
+    location: "Av. Dr. Arthur da Costa Filho, 8000 – Sumaré (região do Camaroeiro), Caraguatatuba – SP.",
+    contact: "(12) 99771-4419 \u2014 Instagram @caragua.vaa.club",
+    schedule: "Segunda a sábado, das 6h as 11h",
+    priceInfo: null,
+    description: "Aulas para iniciantes e experientes, treinos em grupo (como canoas OC1 e OC4) e passeios marítimos (incluindo rotas para praias e pontos da costa)."
+  },
+
 ];
 const restaurants = [
   {
@@ -361,25 +428,25 @@ const restaurants = [
     slug: "marujo",
     name: "Marujo",
     photo: "rest-marujo",
-    neighborhood: "Centro",
-    address: "Av. Prestes Maia, 508, Centro",
-    contact: "(12) 3883-5635",
-    cuisine: "Cozinha italiana e brasileira",
-    openingHours: null,
+    neighborhood: "Massaguaçu",
+    address: "R. Toyo Kamiyama, 270 - Massaguaçu, Caraguatatuba - SP, 11676-430",
+    contact: "(12) 99629-3344",
+    cuisine: "Restaurante de frutos do mar",
+    openingHours: { "Quinta a terça": "11h00 as 23h00", "Quarta": "Fechado" },
     priceRange: "$$",
-    description: "Restaurante tradicional no Centro, com massas, pratos de frutos do mar e receitas da cozinha \xEDtalo-brasileira. Consulte hor\xE1rios e reservas pelo telefone."
+    description: "O Restaurante Marujo se destaca por valorizar os sabores da culinária caiçara, oferecendo peixes, frutos do mar, carnes, pizzas e por\xE7\xF5es. Possui ambiente aconchegante e familiar, com atendimento acolhedor e pratos bem servidos."
   },
   {
     slug: "giardinetto",
-    name: "Giardinetto",
+    name: "Giardinetto Trattoria",
     photo: "rest-giardinetto",
     neighborhood: "Centro",
-    address: null,
-    contact: null,
-    cuisine: "Bar e restaurante",
-    openingHours: null,
+    address: "R. Toyo Kamiyama, n° 40 - Massaguaçu, Caraguatatuba - SP, 11676-430",
+    contact: "(12)99644-2641",
+    cuisine: "Restaurante Italiano",
+    openingHours: { "Ter\xE7a a sabado": "12h00-16h00 e 18h00-22h00", "Domingo": "12h00-16h00", "Segunda": "fechado" },
     priceRange: null,
-    description: "Bar e restaurante listado no guia gastron\xF4mico de Caraguatatuba. Em verifica\xE7\xF5es recentes, o estabelecimento constava como fechado; confirme o funcionamento antes de se deslocar."
+    description: "O Restaurante se destaca pela preparação de massas frescas e artesanais, isotos e pratos elaborados com ingredientes selecionados. O restaurante também participa de festivais gastronômicos da cidade, contribuindo para valorizar a diversidade culinária de Caraguatatuba."
   },
   {
     slug: "caicaras-restaurante",
@@ -452,43 +519,54 @@ const accommodations = [
   },
   {
     slug: "pousada-port-louis",
-    name: "Pousada Port Louis",
+    name: "Hotel Port Louis",
     photo: "hosp-6",
-    category: "Pousada",
-    neighborhood: "Martim de S\xE1",
-    address: "Rua Guanandy, 35, Martim de S\xE1",
-    contactPhone: "(12) 99634-2840",
-    description: "Pousada no bairro Martim de S\xE1, perto da praia mais movimentada da cidade e de quiosques, bares e ciclovia.",
-    amenities: ["Wi-Fi"]
+    category: "Hotel",
+    neighborhood: "Tabatinga",
+    address: "Av. Eurico Gaspar Dutra, 100 - Tabatinga, Caraguatatuba - SP, 11679-200",
+    contactPhone: "(12) 3884-6010",
+    description: "Situado a aproximadamente 250 metros da praia, é uma opção de hospedagem para famílias e casais que buscam tranquilidade, descanso e momentos de lazer.",
+    amenities: ["Wi-Fi", "piscinas adulto e infantil", "hidromassagem aquecida", "spa", "sauna", "academia e restaurante"]
   },
   {
     slug: "hotel-villa-del-mare",
     name: "Pousada Villa Del Mare",
     photo: "hosp-7",
     category: "Pousada",
-    neighborhood: "Centro",
-    address: "Av. Dr. Arthur da Costa Filho, 39, Centro",
-    contactPhone: "(12) 3882-1369",
-    description: "Pousada na avenida da orla central, com localiza\xE7\xE3o estrat\xE9gica para caminhar at\xE9 a praia, o Centro e os mirantes.",
-    amenities: ["Wi-Fi"]
+    neighborhood: "Martin de Sa",
+    address: "R. Ingá, 190 - Martim de Sá, Caraguatatuba - SP, 11662-610",
+    contactPhone: "(12) 3883-4650",
+    description: "Localizada a aproximadamente 150 metros da praia, possui ambiente familiar e acolhedor e permite acesso fácil à praia, restaurantes, quiosques e comércios da região.",
+    amenities: ["Wi-Fi, piscina para adultos e crianças, estacionamento, bar e frigobar nos quartos."]
   },
   {
     slug: "ilha-morena",
     name: "Ilha Morena",
     photo: "hosp-8",
+    category: "Hotel",
+    neighborhood: "Morro do Algodao",
+    address: "Av. Guilherme de Almeida, 885 - Morro do Algodão, Caraguatatuba - SP, 11671-000",
+    contactPhone: "(12) 3887-2344",
+    description: "O Ilha Morena Praia Hotel é cercado por uma ampla area verde e próximo ao rio Juqueriquere, oferecendo uma estrutura voltada ao lazer e ao descanso.",
+    amenities: ["Wi-Fi, parque aquatico, quadras esportivas, restaurante, bar, espacos de convivencia"]
+  },
+  {
+    slug: "pousada-caragua",
+    name: "Pousada Caragua",
+    photo: "hosp-9",
     category: "Pousada",
-    neighborhood: "Centro",
-    address: "Rua Maj. Aires, 58, Centro",
-    contactPhone: "Reservas (11) 2391-9751",
-    description: "Pousada no Centro de Caraguatatuba, com reservas por telefone. Boa op\xE7\xE3o para quem busca uma estadia simples e bem localizada.",
-    amenities: ["Wi-Fi"]
+    neighborhood: "Martin",
+    address: "Rua Itapoan, 475. Praia Martin de Sá Caraguatatuba - SP",
+    contactPhone: "(12) 98146-4391",
+    description: "Pousada a cerca de 350 metros da praia, com unidades estilo apartamento/kitnete, além de aceitar pets.",
+    amenities: ["Wifi", "Cozinha"]
   }
 ];
 const events = [
   {
     slug: "carnagua-folia-2026",
-    name: "Carnagu\xE1 Folia",
-    photo: "evento-carnaval",
+    name: "Caragu\xE1 Folia",
+    photo: "carnaval",
     start: "2026-02-13",
     end: "2026-02-17",
     time: "Programa\xE7\xE3o a partir das 18h",
@@ -500,7 +578,7 @@ const events = [
   {
     slug: "festa-de-iemanja-2026",
     name: "42\xAA Festa de Iemanj\xE1",
-    photo: "evento-praia",
+    photo: "festa-iemanja",
     start: "2026-12-05",
     end: null,
     time: "Abertura oficial \xE0s 19h",
@@ -510,9 +588,9 @@ const events = [
     description: "Festa religiosa e cultural na Praia do Centro, com tendas ao longo da orla, oferendas e apresenta\xE7\xF5es. A 42\xAA edi\xE7\xE3o tem abertura oficial \xE0s 19h do dia 5 de dezembro."
   },
   {
-    slug: "aniversario-169-anos",
-    name: "Anivers\xE1rio de Caraguatatuba \u2014 169 anos",
-    photo: "evento-show",
+    slug: "aniversario-170-anos",
+    name: "Anivers\xE1rio de Caraguatatuba \u2014 170 anos",
+    photo: "niver-caragua",
     start: "2026-04-20",
     end: "2026-04-30",
     time: "Programa\xE7\xE3o divulgada pela Prefeitura",
@@ -524,7 +602,7 @@ const events = [
   {
     slug: "projeto-verao-2026",
     name: "Projeto Ver\xE3o",
-    photo: "evento-verao",
+    photo: "projeto-verao",
     start: "2026-01-01",
     end: "2026-02-28",
     time: "Programa\xE7\xE3o diurna e noturna",
@@ -560,7 +638,7 @@ const events = [
   {
     slug: "caragua-a-gosto-2026",
     name: "Caragu\xE1 a Gosto",
-    photo: "evento-artesanato",
+    photo: "caragua-agosto",
     start: "2026-08-01",
     end: "2026-09-09",
     time: "Conforme hor\xE1rio dos restaurantes participantes",
@@ -572,7 +650,7 @@ const events = [
   {
     slug: "park-fest-2026",
     name: "Park Fest",
-    photo: "evento-musica",
+    photo: "park-fest",
     start: "2026-10-09",
     end: "2026-10-12",
     time: "Programa\xE7\xE3o cultural ao longo do dia",
@@ -698,7 +776,21 @@ async function main() {
   for (const beach of beaches) {
     const local = await prisma.local.upsert({
       where: { slug: beach.slug },
-      update: {},
+      update: {
+        name: beach.name,
+        category: "PRAIA",
+        description: beach.description,
+        neighborhood: beach.neighborhood,
+        latitude: beach.lat,
+        longitude: beach.lng,
+        access: beach.access,
+        capacity: beach.capacity,
+        sea: beach.sea,
+        structure: beach.structure,
+        profile: beach.profile,
+        characteristics: { fonte: "Prefeitura de Caraguatatuba / Wikip\xE9dia" },
+        createdById: admin.id
+      },
       create: {
         slug: beach.slug,
         name: beach.name,
@@ -726,7 +818,21 @@ async function main() {
   for (const point of points) {
     const local = await prisma.local.upsert({
       where: { slug: point.slug },
-      update: {},
+      update: {
+        name: point.name,
+        category: point.category ?? "PONTO",
+        description: point.description,
+        neighborhood: point.neighborhood,
+        latitude: point.lat,
+        longitude: point.lng,
+        access: point.access,
+        capacity: point.capacity,
+        structure: point.structure,
+        profile: point.profile,
+        characteristics: {
+          fonte: "Prefeitura de Caraguatatuba"
+        }
+      },
       create: {
         slug: point.slug,
         name: point.name,
@@ -752,7 +858,15 @@ async function main() {
   for (const activity of activities) {
     const created = await prisma.activity.upsert({
       where: { slug: activity.slug },
-      update: {},
+      update: {
+        name: activity.name,
+        description: activity.description,
+        location: activity.location,
+        contact: activity.contact,
+        schedule: activity.schedule,
+        priceInfo: activity.priceInfo,
+        neighborhood: "Caraguatatuba"
+      },
       create: {
         slug: activity.slug,
         name: activity.name,
@@ -771,7 +885,16 @@ async function main() {
   for (const restaurant2 of restaurants) {
     const created = await prisma.restaurant.upsert({
       where: { slug: restaurant2.slug },
-      update: {},
+      update: {
+        name: restaurant2.name,
+        description: restaurant2.description,
+        neighborhood: restaurant2.neighborhood,
+        address: restaurant2.address,
+        contact: restaurant2.contact,
+        cuisine: restaurant2.cuisine,
+        openingHours: restaurant2.openingHours ?? void 0,
+        priceRange: restaurant2.priceRange
+      },
       create: {
         slug: restaurant2.slug,
         name: restaurant2.name,
@@ -791,7 +914,15 @@ async function main() {
   for (const item of accommodations) {
     const created = await prisma.accommodation.upsert({
       where: { slug: item.slug },
-      update: {},
+      update: {
+        name: item.name,
+        category: item.category,
+        description: item.description,
+        neighborhood: item.neighborhood,
+        address: item.address,
+        contactPhone: item.contactPhone,
+        amenities: item.amenities
+      },
       create: {
         slug: item.slug,
         name: item.name,
@@ -810,7 +941,16 @@ async function main() {
   for (const event of events) {
     const created = await prisma.event.upsert({
       where: { slug: event.slug },
-      update: {},
+      update: {
+        name: event.name,
+        description: event.description,
+        startDate: /* @__PURE__ */ new Date(`${event.start}T12:00:00Z`),
+        endDate: event.end ? /* @__PURE__ */ new Date(`${event.end}T12:00:00Z`) : null,
+        time: event.time,
+        place: event.place,
+        address: event.address,
+        entryInfo: event.entry
+      },
       create: {
         slug: event.slug,
         name: event.name,
